@@ -8,6 +8,7 @@ from airflow import DAG, configuration
 from airflow.models import Variable
 
 from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
+from airflow.contrib.operators.ssh_operator import SSHOperator
 from airflow.models import BaseOperator
 from airflow.operators.python_operator import PythonOperator
 from airflow.utils.module_loading import import_string
