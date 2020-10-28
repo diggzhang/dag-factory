@@ -7,7 +7,7 @@ import os
 from airflow import DAG, configuration
 from airflow.models import Variable
 
-from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
+from airflow.contrib.operators.ssh_operator import SSHOperator
 from airflow.models import BaseOperator
 from airflow.operators.python_operator import PythonOperator
 from airflow.utils.module_loading import import_string
@@ -139,48 +139,6 @@ class DagBuilder:
                 task_params["python_callable"]: Callable = utils.get_python_callable(
                     task_params["python_callable_name"],
                     task_params["python_callable_file"],
-                )
-
-            # KubernetesPodOperator
-            if operator_obj == KubernetesPodOperator:
-                task_params["secrets"] = (
-                    [Secret(**v) for v in task_params.get("secrets")]
-                    if task_params.get("secrets") is not None
-                    else None
-                )
-
-                task_params["ports"] = (
-                    [Port(**v) for v in task_params.get("ports")]
-                    if task_params.get("ports") is not None
-                    else None
-                )
-                task_params["volume_mounts"] = (
-                    [VolumeMount(**v) for v in task_params.get("volume_mounts")]
-                    if task_params.get("volume_mounts") is not None
-                    else None
-                )
-                task_params["volumes"] = (
-                    [Volume(**v) for v in task_params.get("volumes")]
-                    if task_params.get("volumes") is not None
-                    else None
-                )
-                task_params["pod_runtime_info_envs"] = (
-                    [
-                        PodRuntimeInfoEnv(**v)
-                        for v in task_params.get("pod_runtime_info_envs")
-                    ]
-                    if task_params.get("pod_runtime_info_envs") is not None
-                    else None
-                )
-                task_params["full_pod_spec"] = (
-                    V1Pod(**task_params.get("full_pod_spec"))
-                    if task_params.get("full_pod_spec") is not None
-                    else None
-                )
-                task_params["init_containers"] = (
-                    [V1Container(**v) for v in task_params.get("init_containers")]
-                    if task_params.get("init_containers") is not None
-                    else None
                 )
 
             if utils.check_dict_key(task_params, "execution_timeout_secs"):
