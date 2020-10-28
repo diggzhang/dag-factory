@@ -12,23 +12,7 @@ from airflow.models import BaseOperator
 from airflow.operators.python_operator import PythonOperator
 from airflow.utils.module_loading import import_string
 from airflow import __version__ as AIRFLOW_VERSION
-
-# kubernetes operator
-try:
-    from airflow.kubernetes.secret import Secret
-    from airflow.kubernetes.pod import Port
-    from airflow.kubernetes.volume_mount import VolumeMount
-    from airflow.kubernetes.volume import Volume
-    from airflow.kubernetes.pod_runtime_info_env import PodRuntimeInfoEnv
-except ImportError:
-    from airflow.contrib.kubernetes.secret import Secret
-    from airflow.contrib.kubernetes.pod import Port
-    from airflow.contrib.kubernetes.volume_mount import VolumeMount
-    from airflow.contrib.kubernetes.volume import Volume
-    from airflow.contrib.kubernetes.pod_runtime_info_env import PodRuntimeInfoEnv
-from kubernetes.client.models import V1Pod, V1Container
 from packaging import version
-
 from dagfactory import utils
 
 
